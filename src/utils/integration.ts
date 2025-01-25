@@ -6,7 +6,7 @@ import { DeltaType, NumericalIntegrationParams } from '../types';
 /**
  * Public function to compute the numerical integral for Beta(A < B).
  */
-export function numericalIntegralBetaALtB(
+export function integralBetaALtB(
   parameters: NumericalIntegrationParams
 ): number | undefined {
   try {

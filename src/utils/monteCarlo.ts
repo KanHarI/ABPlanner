@@ -12,7 +12,7 @@ import { MONTE_CARLO_DEFAULT_SAMPLE_SIZE } from '../constants';
  * @param parameters - Contains distributions A, B, delta adjustment, and number of samples.
  * @returns The estimated probability Beta(A < B).
  */
-export function sampleBasedBetaALtB(parameters: {
+export function monteCarloBetaALtB(parameters: {
   A: { a: number; b: number };
   B: { a: number; b: number };
   delta?: { type: 'constant' | 'relative' | 'logit'; value: number };
