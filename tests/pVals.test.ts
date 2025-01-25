@@ -5,7 +5,8 @@ import {
   normalApproxBetaALtB,
   monteCarloBetaALtB,
   summationBetaALtB,
-  integralBetaALtB, DeltaType, Delta,
+  integralBetaALtB,
+  Delta,
 } from '../src';
 
 beforeAll(async () => {
@@ -44,7 +45,11 @@ describe('BetaDistributionPValues', () => {
       B: distB,
     });
     // More samples than the default to be within the 0.2% tolerance
-    const pValALtBMonteCarlo = monteCarloBetaALtB({ A: distA, B: distB, samples: 400_000 });
+    const pValALtBMonteCarlo = monteCarloBetaALtB({
+      A: distA,
+      B: distB,
+      samples: 400_000,
+    });
     const pValALtBSummation = summationBetaALtB({ A: distA, B: distB });
     const pValALtBIntegral = integralBetaALtB({ A: distA, B: distB });
     console.log('pValALtBNormal', pValALtBNormal);
@@ -76,14 +81,19 @@ describe('BetaDistributionPValues', () => {
       B: distB,
       delta,
     });
-    const pValALtBMonteCarlo = monteCarloBetaALtB({ A: distA, B: distB, delta, samples: 400_000 });
+    const pValALtBMonteCarlo = monteCarloBetaALtB({
+      A: distA,
+      B: distB,
+      delta,
+      samples: 400_000,
+    });
     const pValALtBIntegral = integralBetaALtB({ A: distA, B: distB, delta });
     console.log('pValALtBNormal', pValALtBNormal);
     console.log('pValALtBMonteCarlo', pValALtBMonteCarlo);
     console.log('pValALtBIntegral', pValALtBIntegral);
     expectClosePVals(pValALtBNormal, pValALtBMonteCarlo);
     expectClosePVals(pValALtBNormal, pValALtBIntegral);
-    expectClosePVals(pValALtBNormal, 0.2860);
+    expectClosePVals(pValALtBNormal, 0.286);
   });
 
   it('Relative delta 3-way comparison', () => {
@@ -105,7 +115,12 @@ describe('BetaDistributionPValues', () => {
       B: distB,
       delta,
     });
-    const pValALtBMonteCarlo = monteCarloBetaALtB({ A: distA, B: distB, delta, samples: 400_000 });
+    const pValALtBMonteCarlo = monteCarloBetaALtB({
+      A: distA,
+      B: distB,
+      delta,
+      samples: 400_000,
+    });
     const pValALtBIntegral = integralBetaALtB({ A: distA, B: distB, delta });
     console.log('pValALtBNormal', pValALtBNormal);
     console.log('pValALtBMonteCarlo', pValALtBMonteCarlo);
