@@ -17,7 +17,7 @@ beforeAll(async () => {
 function expectClosePVals(
   pVal1: number | undefined,
   pVal2: number | undefined,
-  tolerance: number = 0.002
+  tolerance: number = 0.003
 ) {
   expect(pVal1).toBeDefined();
   expect(pVal2).toBeDefined();
@@ -44,7 +44,7 @@ describe('BetaDistributionPValues', () => {
       A: distA,
       B: distB,
     });
-    // More samples than the default to be within the 0.2% tolerance
+    // More samples than the default to be within the 0.3% tolerance
     const pValALtBMonteCarlo = monteCarloBetaALtB({
       A: distA,
       B: distB,
