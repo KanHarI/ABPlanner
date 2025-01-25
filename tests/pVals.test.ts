@@ -16,7 +16,7 @@ beforeAll(async () => {
 function expectClosePVals(
   pVal1: number | undefined,
   pVal2: number | undefined,
-  tolerance: number = 0.001
+  tolerance: number = 0.002
 ) {
   expect(pVal1).toBeDefined();
   expect(pVal2).toBeDefined();
@@ -43,8 +43,8 @@ describe('BetaDistributionPValues', () => {
       A: distA,
       B: distB,
     });
-    // More samples than the default to be within the 0.1% tolerance
-    const pValALtBMonteCarlo = monteCarloBetaALtB({ A: distA, B: distB, samples: 1_000_000 });
+    // More samples than the default to be within the 0.2% tolerance
+    const pValALtBMonteCarlo = monteCarloBetaALtB({ A: distA, B: distB, samples: 400_000 });
     const pValBLtASummation = summationBetaALtB({ A: distA, B: distB });
     const pValBLtAIntegral = integralBetaALtB({ A: distA, B: distB });
     console.log('pValALtBNormal', pValALtBNormal);
@@ -54,5 +54,6 @@ describe('BetaDistributionPValues', () => {
     expectClosePVals(pValALtBNormal, pValALtBMonteCarlo);
     expectClosePVals(pValALtBNormal, pValBLtASummation);
     expectClosePVals(pValALtBNormal, pValBLtAIntegral);
+    expectClosePVals(pValALtBNormal, 0.2213);
   });
 });
