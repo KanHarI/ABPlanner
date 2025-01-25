@@ -2,12 +2,14 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    globals: true,           // Enable global functions like `describe`, `it`, and `expect`
-    environment: "node",     // Use Node.js environment for tests
-    include: ["tests/**/*.test.ts"], // Include all test files in the `tests` folder
+    globals: true, // Enable global functions like describe, it, and expect
+    environment: "node", // Use Node.js environment
+    include: ["tests/**/*.test.ts"], // Include test files
     coverage: {
-      provider: "c8",        // Use c8 for coverage (default option)
-      reporter: ["text", "html"], // Outputs coverage report in console and as an HTML file
+      reporter: ["text", "html"], // Generate both text and HTML reports
+      reportsDirectory: "./coverage", // Directory for coverage reports
+      all: true, // Include files without tests in the coverage report
+      exclude: ["dist/**", "node_modules/**", "**/*.test.ts"], // Exclude generated files, tests, and node_modules
     },
   },
 });
