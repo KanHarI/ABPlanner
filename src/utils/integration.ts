@@ -1,7 +1,7 @@
 import { betaPdf, betaCdf } from './distributions';
 import { sigmoid, inverseSigmoid } from './sigmoid';
 import { NUMERICAL_INTEGRAL_DEFAULT_STEPS } from '../constants';
-import { DeltaType, NumericalIntegrationParams } from '../types';
+import {Delta, DeltaType, NumericalIntegrationParams} from '../types';
 
 /**
  * Public function to compute the numerical integral for Beta(A < B).
@@ -14,10 +14,24 @@ export function integralBetaALtB(
 
     // Calculate direct and complement integrals
     const value1 = computeIntegral({ A, B, delta, steps });
+    let inverseDelta: undefined | Delta = undefined;
+    if (delta !== undefined) {
+      switch (delta?.type) {
+        case 'constant':
+          inverseDelta = { type: 'constant', value: -delta.value };
+          break;
+        case 'relative':
+          inverseDelta = { type: 'relative', value: 1/(delta.value+1)-1 };
+          break;
+        case 'logit':
+          inverseDelta = { type: 'logit', value: -delta.value };
+          break;
+      }
+    }
     const value2 = computeIntegral({
       A: B,
       B: A,
-      delta: delta ? { type: delta.type, value: -delta.value } : undefined,
+      delta: inverseDelta,
       steps,
     });
 

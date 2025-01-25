@@ -28,11 +28,11 @@ export function normalApproxBetaALtB(parameters: {
     const varianceB = (B.a * B.b) / ((B.a + B.b) ** 2 * (B.a + B.b + 1));
 
     // Apply delta adjustment to A
-    const adjustedMeanA = adjustMean(meanA, varianceA, delta);
+    const adjustedA = adjustByDelta(meanA, varianceA, delta);
 
     // Compute mean difference and combined variance
-    const meanDiff = meanB - adjustedMeanA.mean;
-    const combinedVariance = varianceB + adjustedMeanA.variance;
+    const meanDiff = meanB - adjustedA.mean;
+    const combinedVariance = varianceB + adjustedA.variance;
 
     // Compute probability using the normal cumulative distribution function
     return cephes.ndtr(meanDiff / Math.sqrt(combinedVariance));
@@ -50,7 +50,7 @@ export function normalApproxBetaALtB(parameters: {
  * @param delta - Delta adjustment (constant, relative, or logit).
  * @returns Adjusted mean and variance.
  */
-function adjustMean(
+function adjustByDelta(
   mean: number,
   variance: number,
   delta?: { type: DeltaType; value: number }
