@@ -14,10 +14,10 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --coverage",
-    "lint": "eslint 'src/**/*.{ts,js}'",
-    "lint:fix": "eslint 'src/**/*.{ts,js}' --fix",
-    "format": "prettier --write 'src/**/*.{ts,js,json,md}'",
-    "format:check": "prettier --check 'src/**/*.{ts,js,json,md}'"
+    "lint": "eslint 'src/**/*.{ts,js}' 'tests/**/*.{ts,js}'",
+    "lint:fix": "eslint 'src/**/*.{ts,js}' 'tests/**/*.{ts,js}' --fix",
+    "format": "prettier --write 'src/**/*.{ts,js,json,md}' 'tests/**/*.{ts,js,json,md}'",
+    "format:check": "prettier --check 'src/**/*.{ts,js,json,md}' 'tests/**/*.{ts,js,json,md}'"
   },
   "repository": {
     "type": "git",
