@@ -129,4 +129,31 @@ describe('BetaDistributionPValues', () => {
     expectClosePVals(pValALtBNormal, pValALtBIntegral);
     expectClosePVals(pValALtBNormal, 0.408);
   });
+
+  it('Logit delta 2-way comparison', () => {
+    const numPositiveSamplesA = 40;
+    const numNegativeSamplesA = 45;
+    const numPositiveSamplesB = 45;
+    const numNegativeSamplesB = 45;
+    const distA: BetaDistributionParams = {
+      a: numPositiveSamplesA + 1,
+      b: numNegativeSamplesA + 1,
+    };
+    const distB: BetaDistributionParams = {
+      a: numPositiveSamplesB + 1,
+      b: numNegativeSamplesB + 1,
+    };
+    const delta: Delta = { type: 'logit', value: 0.1 };
+    const pValALtBIntegral = integralBetaALtB({ A: distA, B: distB, delta });
+    const pValALtBMonteCarlo = monteCarloBetaALtB({
+      A: distA,
+      B: distB,
+      delta,
+      samples: 400_000,
+    });
+    console.log('pValALtBIntegral', pValALtBIntegral);
+    console.log('pValALtBMonteCarlo', pValALtBMonteCarlo);
+    expectClosePVals(pValALtBIntegral, pValALtBMonteCarlo);
+    expectClosePVals(pValALtBIntegral, 0.521);
+  });
 });

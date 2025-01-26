@@ -16,6 +16,10 @@ export function summationBetaALtB(parameters: {
   try {
     const { A, B } = parameters;
 
+    if (!Number.isInteger(A.a) || !Number.isInteger(A.b) || !Number.isInteger(B.a) || !Number.isInteger(B.b)) {
+      return undefined;
+    }
+
     // Determine which distribution to use as the main summation loop
     if (B.a <= B.b && B.a <= A.a && B.a <= A.b) {
       return computeSummation(A, B);

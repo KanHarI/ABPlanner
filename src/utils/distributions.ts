@@ -22,6 +22,23 @@ export function gaussianSample(): number {
   return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 }
 
+/**
+ * Sample from a Poisson(λ) distribution using a simple method:
+ *   - This is O(λ) on average. Fine if λ is not huge.
+ *   - For very large λ, consider a more sophisticated approach (e.g. "Poisson via subroutines").
+ *   A GPT-o1 implementation. Will be tested as part of the binomial distribution tests.
+ */
+export function poissonSample(lambda: number): number {
+  const L = Math.exp(-lambda);
+  let k = 0;
+  let p = 1.0;
+  while (p > L) {
+    k++;
+    p *= Math.random();
+  }
+  return k - 1;
+}
+
 // The following sampling functions are translated from C to js from numpy
 // https://github.com/numpy/numpy/blob/5cae51e794d69dd553104099305e9f92db237c53/numpy/random/src/distributions/distributions.c
 // Sample a random variable from the exponential distribution.
