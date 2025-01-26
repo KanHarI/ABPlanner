@@ -16,7 +16,12 @@ export function summationBetaALtB(parameters: {
   try {
     const { A, B } = parameters;
 
-    if (!Number.isInteger(A.a) || !Number.isInteger(A.b) || !Number.isInteger(B.a) || !Number.isInteger(B.b)) {
+    if (
+      !Number.isInteger(A.a) ||
+      !Number.isInteger(A.b) ||
+      !Number.isInteger(B.a) ||
+      !Number.isInteger(B.b)
+    ) {
       return undefined;
     }
 

@@ -4,7 +4,7 @@ import { integralBetaALtB } from './utils/integration';
 import { normalApproxBetaALtB } from './utils/normalBetaApproximation';
 import { summationBetaALtB } from './utils/summation';
 import { monteCarloBetaALtB } from './utils/monteCarlo';
-import {inverseSigmoid, sigmoid} from "./utils/sigmoid";
+import { inverseSigmoid, sigmoid } from './utils/sigmoid';
 
 export interface ExperimentReport {
   NExperiments: number;
@@ -62,7 +62,10 @@ export function runExperimentsFindConfidenceAndPower(parameters: {
       ? naiveBinomialSample
       : optimizedBinomialSample;
   let betaALtBCallback: typeof integralBetaALtB | undefined = undefined;
-  switch (parameters.comparisonMethod ?? (parameters.delta ? 'integration' : 'summation')) {
+  switch (
+    parameters.comparisonMethod ??
+    (parameters.delta ? 'integration' : 'summation')
+  ) {
     case 'normalApprox':
       betaALtBCallback = normalApproxBetaALtB;
       break;
@@ -80,19 +83,23 @@ export function runExperimentsFindConfidenceAndPower(parameters: {
     throw new Error('Invalid comparison method');
   }
   let hypothesizedFPs = 0;
-  for (let experimentCounter = 0; experimentCounter < parameters.NExperiments; ++experimentCounter) {
+  for (
+    let experimentCounter = 0;
+    experimentCounter < parameters.NExperiments;
+    ++experimentCounter
+  ) {
     const Pa = Math.random();
     const Pb = Math.random();
     let minPbGT = Pa;
     if (parameters.delta) {
       switch (parameters.delta.type) {
-        case "constant":
+        case 'constant':
           minPbGT += parameters.delta.value;
           break;
-        case "relative":
+        case 'relative':
           minPbGT *= 1 + parameters.delta.value;
           break;
-        case "logit":
+        case 'logit':
           minPbGT = sigmoid(inverseSigmoid(Pa) + parameters.delta.value);
           break;
         default:
@@ -106,7 +113,11 @@ export function runExperimentsFindConfidenceAndPower(parameters: {
     const NbNegative = parameters.NPerExperiment - NbPositive;
     const distA = { a: NaPositive + 1, b: NaNegative + 1 };
     const distB = { a: NbPositive + 1, b: NbNegative + 1 };
-    const pVal = betaALtBCallback({ A: distA, B: distB, delta: parameters.delta });
+    const pVal = betaALtBCallback({
+      A: distA,
+      B: distB,
+      delta: parameters.delta,
+    });
     if (pVal === undefined) {
       throw new Error('Error during comparison');
     }
@@ -126,9 +137,11 @@ export function runExperimentsFindConfidenceAndPower(parameters: {
       }
     }
   }
-  report.EmpiricalPValue = report.NFalsePositives / (report.NFalsePositives + report.NTruePositives);
+  report.EmpiricalPValue =
+    report.NFalsePositives / (report.NFalsePositives + report.NTruePositives);
   report.EmpiricalConfidence = 1 - report.EmpiricalPValue;
-  report.EmpiricalPower = report.NTruePositives / (report.NTruePositives + report.NFalseNegatives);
+  report.EmpiricalPower =
+    report.NTruePositives / (report.NTruePositives + report.NFalseNegatives);
   report.HypothesizedFalsePositives = hypothesizedFPs;
   return report;
 }

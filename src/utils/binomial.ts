@@ -190,6 +190,7 @@ function testFinalAcceptance(
   n: number,
   p: number,
   v: number,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   us: number
 ): boolean {
   // We'll do a direct ratio-of-likelihood approach:
